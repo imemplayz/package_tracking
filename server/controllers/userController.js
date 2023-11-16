@@ -52,12 +52,21 @@ const deleteUser = async (req, res) => {
 //create a new user
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, date } = req.body;
+    const { firstName, lastName, email, phone, password, backgroundColor, teamInfo, date } = req.body;
 
     const newUser = new User({
-      name,
+      firstName,
+      lastName,
       email,
+      phone,
       password,
+      backgroundColor,
+      teamInfo: {
+        teamId: teamInfo.teamId,
+        teamName: teamInfo.teamName,
+        teamMember: teamInfo.teamMember,
+      },
+      isAdmin: false,
       date: date,
     });
 
@@ -72,11 +81,11 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    const { name, email, password, date } = req.body;
+    const { name, email, password, isAdmin, date } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, password, date: new Date(date) },
+      { name, email, password, isAdmin, date: new Date(date) },
       { new: true }
     );
 
